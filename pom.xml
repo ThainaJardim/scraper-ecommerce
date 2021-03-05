@@ -15,6 +15,17 @@
             <artifactId>jsoup</artifactId>
             <version>1.13.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>9.4.36.v20210114</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>9.4.36.v20210114</version>
+        </dependency>
+
     </dependencies>
 
     <properties>
