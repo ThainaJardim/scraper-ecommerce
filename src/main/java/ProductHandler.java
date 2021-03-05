@@ -5,33 +5,27 @@ import org.jsoup.select.Elements;
 public class ProductHandler {
 
     protected String nome;
-    protected Float preco;
+    protected String preco;
 
-    public void getProductInfo(Document doc){
+    public void recebeInfoProduc(Document doc){
         nome = getNome(doc);
         preco = getPreco(doc);
     }
 
     public String getNome(Document docX){
-        String nome;
-        Elements tags = docX.select("#product_addtocart_form > div.product-shop > div.product-name > h1");
+        Elements tags = docX.select(".product-name-small");
         Element tag = tags.first();
-        nome = tag.text();
-        return nome;
+        return tag.text();
     }
 
-    public Float getPreco(Document docA) {
-        Elements tags = docA.select ("#product_addtocart_form > div.add-to-cart-wrapper > div.price-info-grouped > div.selected-info > div.final-price > span");
-        Element tag = tags.first();
-        try {
-            preco = Float.valueOf(tag.text());
-        } catch (Exception e) {
-            preco = 0f;
-        }
-        return preco;
+    public String getPreco(Document docA) {
+        Elements tags = docA.select (".price-sales span");
+        String tag = tags.first().toString();
+        return tag.split("\\$")[1].replaceAll("</span>", "");
+
     }
 
-    public void showProductInfo() {
-        System.out.printf("O produto %s custa R$ %4.2f", this.nome, this.preco);
+    public String showProductInfo() {
+        return "O produto "  + this.nome + " custa R$ " + this.preco;
     }
 }

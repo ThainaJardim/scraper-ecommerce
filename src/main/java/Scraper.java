@@ -1,23 +1,23 @@
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import java.util.Scanner;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 
 public class Scraper {
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
 
-        System.out.println("Qual a url?");
-        Scanner scanner = new Scanner(System.in);
-        String url = scanner.next();
+        Server server = new Server(8080);
 
-        final Document document = Jsoup.connect(url).get();
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        context.setContextPath("/");
 
-        ProductHandler ecommerce;
+        server.setHandler(context);
+        context.addServlet(new ServletHolder(new RequestServlet()), "/*");
+        context.addServlet(new ServletHolder(new RequestServlet()), "/sephora*");
 
-        ecommerce = new ProductHandler();
 
-        ecommerce.getProductInfo(document);
 
-        ecommerce.showProductInfo();
+        server.start();
+        server.join();
     }
 }
