@@ -6,18 +6,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 public class RequestServlet extends HttpServlet {
 
     ProductHandler productHandler = new ProductHandler();
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().println();
     }
 
-
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("charset=utf-8");
@@ -32,9 +34,9 @@ public class RequestServlet extends HttpServlet {
 
     public String getRequestBody(HttpServletRequest req) {
         try (BufferedReader br = req.getReader()) {
-            return br.lines().collect(Collectors.joining(System.lineSeparator()));
+           return br.lines().collect(Collectors.joining(System.lineSeparator()));
         } catch (IOException e) {
-            return "";
+            return "failed";
         }
     }
 

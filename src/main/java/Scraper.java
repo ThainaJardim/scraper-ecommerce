@@ -1,5 +1,6 @@
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
 public class Scraper {
@@ -11,10 +12,14 @@ public class Scraper {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
 
-        server.setHandler(context);
-        context.addServlet(new ServletHolder(new RequestServlet()), "/*");
-        context.addServlet(new ServletHolder(new RequestServlet()), "/sephora*");
+        ServletHandler handler = new ServletHandler();
+        server.setHandler(handler);
+        handler.addServletWithMapping(RequestServlet.class, "/sephora");
+        handler.addServletWithMapping(SimpleServlet.class, "/path");
 
+//        server.setHandler(context);
+//        context.addServlet(new ServletHolder(new RequestServlet()), "/*");
+//        context.addServlet(new ServletHolder(new RequestServlet()), "/sephora*");
 
 
         server.start();
